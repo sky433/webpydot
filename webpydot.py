@@ -22,7 +22,6 @@ urls = (
 ) 
 
 app = web.application(urls, globals())
-render = web.template.render('templates/')
 # debug/trace flag
 debug = 0
 
