@@ -1,37 +1,1 @@
-== One time system setup:
-
-* Install webpy:
-wget http://webpy.org/static/web.py-0.33.tar.gz
-tar xvzf web.py-0.33.tar.gz
-cd web.py-0.33
-python setup.py install
-
-* Install  pyparsing:
-wget http://cheeseshop.python.org/packages/source/p/pyparsing/pyparsing-1.5.0.tar.gz
-tar zxvf pyparsing-1.5.0.tar.gz
-cd pyparsing-1.5.0
-python setup.py install
-
-* Install  pydot:
-wget  http://pydot.googlecode.com/files/pydot-1.0.2.tar.gz
-tar zxvf pydot-1.0.2.tar.gz
-cd pydot-1.0.2
-python setup.py install
-
-* Initialize subdirs:
-./init.sh
-
-== More info about packages used:
-
-http://webpy.org/
-http://pyparsing.wikispaces.com/Download+and+Installation
-http://code.google.com/p/pydot/
-
-== Running
-
-./webpydot.py
-
-== Testing
-
-cd test
-./simpletest.py
+== One time system setup:* Install webpy:wget http://webpy.org/static/web.py-0.33.tar.gztar xvzf web.py-0.33.tar.gzcd web.py-0.33python setup.py install* Install  pyparsing:wget http://cheeseshop.python.org/packages/source/p/pyparsing/pyparsing-1.5.0.tar.gztar zxvf pyparsing-1.5.0.tar.gzcd pyparsing-1.5.0python setup.py install* Install  pydot:wget  http://pydot.googlecode.com/files/pydot-1.0.2.tar.gztar zxvf pydot-1.0.2.tar.gzcd pydot-1.0.2python setup.py install* Initialize subdirs:./init.sh== More info about packages used:http://webpy.org/http://pyparsing.wikispaces.com/Download+and+Installationhttp://code.google.com/p/pydot/== Running./webpydot.py== TroubleshootingIn webpydot-daemon.py, set debug to 1:DEBUG=1Restart with port number as argument (or the default will be used):python webpydot-daemon.py 8088== Testingcd test./simpletest.py
