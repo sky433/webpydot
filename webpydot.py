@@ -15,21 +15,26 @@ import web
 from __init__ import __version__
 #import settings
 import pydot
+import logging
 
 urls = (
   '/gvservice/convert/', 'convert',
-  #'/(.*)', 'index'
+  '/gvservice/dotimage/', 'dotimage',
 ) 
 
 app = web.application(urls, globals())
 # debug/trace flag
-debug = 0
+#simulate = 1
+#logging.basicConfig(level=logging.DEBUG)
+
+simulate = 0
+logging.basicConfig(logfile='webpydot.log', level=logging.INFO)
 
 def writefile(filename, contents):
     """
      write contents into a file
     """
-    print filename
+    logging.debug("writefile: %s" % filename)
     file = open(filename, "w")
     file.write(contents)
     file.close()
@@ -65,23 +70,39 @@ class convert:
          @return .png image represeting .dot
         """
         payload = web.data()
-        if debug:
-            print payload
+        logging.debug("Payload: %s" % payload)
         ts = time.time()
         filepath = storeFilename('convert', 'graphviz', '.dot', ts)
         pngfilepath = storeFilename('convert', 'graphviz', '.png', ts)
         if payload:
             writefile(filepath, payload)
-            g=pydot.graph_from_dot_file(filepath)
-            g.write_png(pngfilepath)
-            ret = loadfile(pngfilepath)
-            print "Produced a png of size %d bytes" % len(ret)
+            if not simulate:
+                g=pydot.graph_from_dot_file(filepath)
+                g.write_png(pngfilepath)
+            #body of response contains the .png file
+            #ret = loadfile(pngfilepath)
+            #print "Produced a png of size %d bytes" % len(ret)
+            
+            #body of response contains the URL of .png resource
+            ret = pngfilepath
+            logging.info("png file generated at %s" % ret)
             return ret
         else:
             return "Error: Incorrect payload."
  
+class dotimage:
+    def GET(self):
+        i = web.input()
+        id = i.id
+        if id:
+            filename = id
+            payload = loadfile(filename)
+            web.header("Content-Type","image/png")
+            return payload
+        else:
+            return 'File not found'
 
 if __name__ == "__main__": 
-    print 'Starting webpydot v'+__version__
+    logging.info('Starting webpydot v%s' % __version__)
     app.run()
 
